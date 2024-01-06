@@ -1,0 +1,84 @@
+########################################################## \
+############# MOONRAKER CONFIG FILE ###################### + --> To configure moonraker... :)
+########################################################## /
+
+[include moonraker/base.conf] # Do not remove this line
+
+# This file is yours! Feel free to edit it in order to include all the needed
+# things to configure moonraker to your machine. Also, keep in mind that it
+# will not be erased when updating the config and it will be kept as you've set it.
+
+# The moonraker/base.conf file should contain a good and sane default configuration,
+# however, feel free to override its sections and adapt the config to your needs.
+
+# ------------------------------------------------------------------------------------------
+
+
+##### Exclude object pre-processing -------------------------------
+## This can be deactivated in case you use an offline processor in your slicer
+[include moonraker/exclude_object.conf]
+# -----------------------------------------------------------------
+
+##### Fluidd update management ------------------------------------
+# [include moonraker/fluidd.conf]
+# -----------------------------------------------------------------
+
+##### Mainsail update management ----------------------------------
+[include moonraker/mainsail.conf]
+# -----------------------------------------------------------------
+
+##### Auto Z calibration plugin update management -----------------
+# [include moonraker/z_calibration.conf]
+# -----------------------------------------------------------------
+
+
+##### Add your custom moonraker config customizations and overrides below this line...
+# ------------------------------------------------------------------------------------
+
+[update_manager KlipperScreen]
+type: git_repo
+path: ~/KlipperScreen
+origin: https://github.com/KlipperScreen/KlipperScreen.git
+virtualenv: ~/.KlipperScreen-env
+requirements: scripts/KlipperScreen-requirements.txt
+system_dependencies: scripts/system-dependencies.json
+managed_services: KlipperScreen
+
+
+# [update_manager timelapse]
+# type: git_repo
+# primary_branch: main
+# path: ~/moonraker-timelapse
+# origin: https://github.com/mainsail-crew/moonraker-timelapse.git
+# managed_services: klipper moonraker
+
+
+[mqtt]
+address: 10.0.20.55
+port: 1883
+username: patofotomqtt
+password: 306537
+enable_moonraker_api: True
+instance_name: voron_2.4_350_mqtt
+status_objects:
+  toolhead
+  extruder
+  print_stats
+  heater_bed
+  idle_timeout
+  gcode_move
+  display_status
+publish_split_status: True
+default_qos: 0
+
+
+[power shelly_relay]
+type: shelly
+address: 10.0.20.228
+user: dp@psuarez.com
+password: UG8PsMigeYgA
+
+
+[spoolman]
+server: http://10.0.10.228:7912
+sync_rate: 5
